@@ -1,8 +1,8 @@
 {
   "expoServerPort": 19000,
-  "packagerPort": 19002,
-  "packagerPid": 77035,
-  "expoServerNgrokUrl": "https://qw-xkn.dchan331.4nums.exp.direct",
-  "packagerNgrokUrl": "https://packager.qw-xkn.dchan331.4nums.exp.direct",
-  "ngrokPid": 77063
+  "packagerPort": 19001,
+  "packagerPid": 20697,
+  "expoServerNgrokUrl": "https://qw-xkn.oadeboye.4nums.exp.direct",
+  "packagerNgrokUrl": "https://packager.qw-xkn.oadeboye.4nums.exp.direct",
+  "ngrokPid": 20717
 }
