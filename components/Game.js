@@ -1,13 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Game from './components/Game'
 
-export default class App extends React.Component {
+export default class Game extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Game/>
+        <Text>Game Component</Text>
       </View>
     );
   }
