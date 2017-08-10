@@ -7,7 +7,7 @@ export default class Game extends React.Component {
     super(props);
     this.state = {
       item: 0,
-      numbers: [1,2,6,4],
+      numbers: [],
       operators: ['+','-','x','/'],
       clicked: [],
       solutions: []
@@ -26,14 +26,36 @@ export default class Game extends React.Component {
 
   handleNum(num){
     var temp = this.state.clicked;
-    var newClicked = temp.concat([this.state.numbers[num]])
-    this.setState({clicked: newClicked})
+    console.log('up', temp);
+    if(temp.length !== 0 && this.state.operators.indexOf(temp[temp.length - 1]) === -1){
+      alert('choose a sign')
+    }else{
+      temp.push([this.state.numbers[num], num])
+      this.setState({clicked: temp})
+    }
+
+    if(temp.length === 3){
+      console.log('in here');
+      var num1 = temp[0];
+      var num2 = temp[2];
+      console.log(num1, num2);
+      var operator = temp[1];
+      var newNumbers = this.state.numbers;
+      newNumbers[num1[1]] = '';
+      // console.log(calculator([1,'+',2]))
+      newNumbers[num2[1]] = calculator([num1[0], operator, num2[0]])
+      this.setState({numbers:newNumbers, clicked: []});
+    }
   }
 
   handleSign(num){
     var temp = this.state.clicked;
-    var newClicked = temp.concat([this.state.operators[num]])
-    this.setState({clicked: newClicked})
+    if(temp.length === 0 || this.state.numbers.indexOf(temp[temp.length - 1][0]) === -1){
+      alert('choose a number')
+    }else{
+      var newClicked = temp.concat([this.state.operators[num]])
+      this.setState({clicked: newClicked})
+    }
   }
 
   handleSolutions(x){
@@ -46,9 +68,12 @@ export default class Game extends React.Component {
     }
   }
   render() {
-    console.log(this.state.solutions);
+    if(this.state.clicked.length === 3){
+      console.log('calculated', calculator([this.state.clicked[0][0], this.state.clicked[1], this.state.clicked[2][0]]));
+    }
     return (
       <View>
+        {/* container for the 4 nums */}
         <View style={styles.container}>
           <View>
             <TouchableOpacity style={styles.square} onPress={() => this.handleNum(0)}>
@@ -75,9 +100,7 @@ export default class Game extends React.Component {
             </TouchableOpacity>
           </View>
         </View>
-
-        <View><Text style={{fontSize: 40, textAlign: 'center'}}>{this.state.clicked}</Text></View>
-
+        {/* end of container for nums */}
         <View style={styles.operatorsView}>
           {this.state.operators.map((ops,i) => {
             return (
@@ -106,6 +129,22 @@ export default class Game extends React.Component {
       </View>
     );
   }
+}
+
+
+const math_it_up = {
+    '+': function (x, y) { return x + y },
+    '-': function (x, y) { return x - y },
+    '/': function (x, y) { return (x / y)},
+    'x': function (x, y) { return x * y },
+  }
+
+function calculator(array){
+  var len = array.length
+  var operator = array[len - 2];
+  var num1 = Number(array[len - 3]);
+  var num2 = Number(array[len - 1])
+  return math_it_up[operator](num1,num2)
 }
 
 function setNums(item){
