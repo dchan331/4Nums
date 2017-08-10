@@ -1,13 +1,18 @@
 {
-  "name": "4nums1",
+  "name": "4nums",
   "version": "0.0.0",
   "description": "Hello Expo!",
   "author": null,
   "private": true,
   "main": "node_modules/expo/AppEntry.js",
   "dependencies": {
-    "expo": "^19.0.0",
+    "csvjson": "^4.3.4",
+    "csvtojson": "^1.1.7",
+    "expo": "^18.0.4",
+    "fs": "0.0.1-security",
     "react": "16.0.0-alpha.12",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-19.0.0.tar.gz"
+    "react-native": "https://github.com/expo/react-native/archive/sdk-18.0.1.tar.gz",
+    "react-native-swiper": "^1.5.4",
+    "react-navigator": "0.0.0-0"
   }
 }
