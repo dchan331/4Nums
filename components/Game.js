@@ -13,12 +13,13 @@ export default class Game extends React.Component {
       solutions: []
     }
     this.handleNum = this.handleNum.bind(this);
-    this.handleSign = this.handleSign.bind(this)
+    this.handleSign = this.handleSign.bind(this);
+    this.handleGame = this.handleGame.bind(this);
+    this.handleSolutions = this.handleSolutions.bind(this)
   }
 
   componentDidMount(){
     var item = Math.floor(Math.random()*dataFile.length);
-    console.log('CDM', item)
     this.setState({item: item})
     var numbers = setNums(item)
     this.setState({numbers: numbers})
@@ -38,20 +39,33 @@ export default class Game extends React.Component {
       console.log('in here');
       var num1 = temp[0];
       var num2 = temp[2];
-      console.log(num1, num2);
       var operator = temp[1];
       var newNumbers = this.state.numbers;
       newNumbers[num1[1]] = '';
       // console.log(calculator([1,'+',2]))
       newNumbers[num2[1]] = calculator([num1[0], operator, num2[0]])
       this.setState({numbers:newNumbers, clicked: []});
+      if(checkWin(newNumbers) === 'winner'){
+        alert('Winner')
+        this.handleGame()
+      }
     }
+  }
+
+  handleGame(){
+    var item = Math.floor(Math.random()*dataFile.length);
+    this.setState({item: item})
+    var numbers = setNums(item)
+    this.setState({numbers: numbers})
   }
 
   handleSign(num){
     var temp = this.state.clicked;
-    if(temp.length === 0 || this.state.numbers.indexOf(temp[temp.length - 1][0]) === -1){
-      alert('choose a number')
+    if(this.state.operators.indexOf(temp[temp.length - 1]) !== -1){
+      temp[1] = this.state.operators[num]
+      this.setState({clicked: temp})
+    }else if(temp.length === 0 || this.state.numbers.indexOf(temp[temp.length - 1][0]) === -1){
+        alert('choose a number')
     }else{
       var newClicked = temp.concat([this.state.operators[num]])
       this.setState({clicked: newClicked})
@@ -67,37 +81,49 @@ export default class Game extends React.Component {
       this.setState({solutions: solutions})
     }
   }
+
+  handleUndo(){
+    var newClicked = this.state.clicked;
+    newClicked.pop();
+    this.setState({clicked: newClicked})
+  }
+
   render() {
-    if(this.state.clicked.length === 3){
-      console.log('calculated', calculator([this.state.clicked[0][0], this.state.clicked[1], this.state.clicked[2][0]]));
-    }
     return (
       <View>
         {/* container for the 4 nums */}
         <View style={styles.container}>
           <View>
+            {this.state.numbers[0] === '' ? <View style={styles.square}></View>:
             <TouchableOpacity style={styles.square} onPress={() => this.handleNum(0)}>
               <View style={styles.number}>
                 <Text style={{fontSize: 30}}>{this.state.numbers[0]}</Text>
               </View>
             </TouchableOpacity>
+          }
+          {this.state.numbers[1] === '' ? <View style={styles.square}></View>:
             <TouchableOpacity style={styles.square} onPress={() => this.handleNum(1)}>
               <View style={styles.number}>
                 <Text style={{fontSize: 30}}>{this.state.numbers[1]}</Text>
               </View>
             </TouchableOpacity>
+          }
           </View>
           <View>
+            {this.state.numbers[2] === '' ? <View style={styles.square}></View>:
             <TouchableOpacity style={styles.square} onPress={() => this.handleNum(2)}>
               <View style={styles.number}>
                 <Text style={{fontSize: 30}}>{this.state.numbers[2]}</Text>
               </View>
             </TouchableOpacity>
+          }
+          {this.state.numbers[3] === '' ? <View style={styles.square}></View>:
             <TouchableOpacity style={styles.square} onPress={() => this.handleNum(3)}>
               <View style={styles.number}>
                 <Text style={{fontSize: 30}}>{this.state.numbers[3]}</Text>
               </View>
             </TouchableOpacity>
+          }
           </View>
         </View>
         {/* end of container for nums */}
@@ -112,6 +138,11 @@ export default class Game extends React.Component {
             );
           })}
         </View>
+
+        <TouchableOpacity style={styles.square} onPress={() => this.handleUndo()}>
+          <View><Text>Undo </Text><Text>{this.state.clicked}</Text></View>
+        </TouchableOpacity>
+
         <View style={styles.operatorsView}>
           {this.state.solutions.length !== 0 ?
             <View>
@@ -166,6 +197,20 @@ function displaySolutions(item){
   }
   return solve
 }
+
+function checkWin(array){
+  var count = 0;
+  array.forEach((num) => {
+    if(num === ''){
+      count ++
+    }
+  })
+  if(count === 3 && array.indexOf(24) !== -1){
+    return 'winner';
+  }
+  return 'continue'
+}
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
