@@ -1,6 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import dataFile from './4Nums';
+import styles from '../assets/stylesheets/main';
+import Num from './Num';
 
 export default class Game extends React.Component {
   constructor(props){
@@ -72,11 +74,18 @@ export default class Game extends React.Component {
       console.log('calculated', calculator([this.state.clicked[0][0], this.state.clicked[1], this.state.clicked[2][0]]));
     }
     return (
-      <View>
+      <View style={styles.gameBox}>
         {/* container for the 4 nums */}
         <View style={styles.container}>
-          <View>
-            <TouchableOpacity style={styles.square} onPress={() => this.handleNum(0)}>
+          <View style={styles.numBox}>
+            {this.state.numbers.map((number, index) =>
+              <Num
+                number={number}
+                key={index}
+                handleNum={(number) => this.handleNum(number)}
+              />
+            )}
+            {/* <TouchableOpacity style={styles.square} onPress={() => this.handleNum(0)}>
               <View style={styles.number}>
                 <Text style={{fontSize: 30}}>{this.state.numbers[0]}</Text>
               </View>
@@ -97,14 +106,14 @@ export default class Game extends React.Component {
               <View style={styles.number}>
                 <Text style={{fontSize: 30}}>{this.state.numbers[3]}</Text>
               </View>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </View>
         {/* end of container for nums */}
         <View style={styles.operatorsView}>
           {this.state.operators.map((ops,i) => {
             return (
-              <TouchableOpacity style={styles.square} onPress={() => this.handleSign(i)}>
+              <TouchableOpacity key={i} style={styles.square} onPress={() => this.handleSign(i)}>
                 <View style={styles.operators}>
                   <Text style={{fontSize: 30}}>{ops}</Text>
                 </View>
@@ -115,8 +124,8 @@ export default class Game extends React.Component {
         <View style={styles.operatorsView}>
           {this.state.solutions.length !== 0 ?
             <View>
-              {this.state.solutions.map((solve) => {
-                return <Text>{solve}</Text>
+              {this.state.solutions.map((solve, i) => {
+                return <Text key={i}>{solve}</Text>
               })}
               <TouchableOpacity onPress={() => this.handleSolutions('hide')}><Text>Hide Solutions</Text></TouchableOpacity>
             </View>
@@ -166,43 +175,3 @@ function displaySolutions(item){
   }
   return solve
 }
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    flexDirection: 'row'
-  },
-  square:{
-    backgroundColor: '#fff',
-    borderWidth: 2,
-    width: 100,
-    height: 100,
-  },
-  number: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  operators: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  operatorsView:{
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  solutions: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 30,
-    height: 30,
-    borderWidth: 2
-  }
-});
