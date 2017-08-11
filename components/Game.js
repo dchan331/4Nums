@@ -185,14 +185,17 @@ function calculator(array){
 
   var index1 = typeof array[len - 3] === "string" ? array[len - 3].split('/') : array[len - 3]
   var index2 = typeof array[len - 1] === "string" ? array[len - 1].split('/') : array[len - 1]
-
-  var num1 = typeof index1 === "object" ? index1 : eval(index1)
-  var num2 = typeof index1 === "object" ? index2 : eval(index2);
-  console.log('nums', num1, num2);
+  console.log('index', index1.length, index2.length);
+  var num1 = typeof index1 === "object" && index1.length === 1 ? index1 : eval(index1)
+  var num2 = typeof index2 === "object" && index2.length === 1 ? index2 : eval(index2);
+  if(typeof num1 === "object" && num1.length === 1 ){
+    num1 = num1[0];
+  }
+  if(typeof num2 === "object" && num2.length === 1 ){
+    num2 = num2[0];
+  }
   let answer;
-
-  console.log('0');
-
+  console.log('nums', num1, num2);
   if(typeof num1 === "object" && typeof num2 !== "object"){
     console.log('1');
     if(operator === 'x'){
@@ -230,17 +233,14 @@ function calculator(array){
     console.log('4');
     answer = new Fraction(parseInt(num1), parseInt(num2)).toString();
   }else{
-    answer = math_it_up[operator](num1,num2)
+    answer = math_it_up[operator](parseInt(num1),parseInt(num2))
   }
-  console.log('answer top', answer, typeof answer);
+
   if(typeof answer === "string"){
     var split1 = answer.split(' ')
-    console.log('splt1', split1);
     if(split1.length > 1){
       var split2 = split1[1].split('/')
-      console.log('splt2', split2);
       answer = (parseInt(split1[0]) * parseInt(split2[1]) + parseInt(split2[0])) +'/'+ parseInt(split2[1]);
-      console.log('answer bottom', answer);
     }
   }
 console.log(answer);
