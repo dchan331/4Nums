@@ -1,8 +1,8 @@
 {
-  "expoServerPort": 19001,
-  "packagerPort": 19003,
-  "packagerPid": 41473,
-  "expoServerNgrokUrl": "https://c6-5ie.oadeboye.4nums.exp.direct",
-  "packagerNgrokUrl": "https://packager.c6-5ie.oadeboye.4nums.exp.direct",
-  "ngrokPid": 41485
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null
 }
