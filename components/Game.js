@@ -1,7 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, AsyncStorage } from 'react-native';
+import { Text, View, TouchableOpacity, AsyncStorage } from 'react-native';
 import dataFile from './4Nums';
-import {Fraction} from 'fractional';
+import { Fraction } from 'fractional';
+import styles from './Styles';
 
 export default class Game extends React.Component {
   constructor(props){
@@ -9,7 +10,7 @@ export default class Game extends React.Component {
     this.state = {
       item: 0,
       numbers: [],
-      operators: ['+','-','x','/'],
+      operators: ['+','-','x','÷'],
       clicked: [],
       solutions: [],
       hist: [],
@@ -108,7 +109,7 @@ export default class Game extends React.Component {
     var newNums = this.state.hist[this.state.histIndex - 1]
     this.setState({numbers: newNums, histIndex: this.state.histIndex - 1})
   }
-  
+
   handleRedo(){
     var newNums = this.state.hist[this.state.histIndex + 1]
     this.setState({numbers: newNums, histIndex: this.state.histIndex + 1})
@@ -197,7 +198,7 @@ export default class Game extends React.Component {
 const math_it_up = {
   '+': function (x, y) { return x + y },
   '-': function (x, y) { return x - y },
-  '/': function (x, y) { return (x / y)},
+  '÷': function (x, y) { return (x / y)},
   'x': function (x, y) { return x * y },
 }
 
@@ -205,8 +206,8 @@ function calculator(array){
   var len = array.length
   var operator = array[len - 2];
 
-  var index1 = typeof array[len - 3] === "string" ? array[len - 3].split('/') : array[len - 3]
-  var index2 = typeof array[len - 1] === "string" ? array[len - 1].split('/') : array[len - 1]
+  var index1 = typeof array[len - 3] === "string" ? array[len - 3].split('÷') : array[len - 3]
+  var index2 = typeof array[len - 1] === "string" ? array[len - 1].split('÷') : array[len - 1]
   // console.log('index', index1.length, index2.length);
   var num1 = typeof index1 === "object" && index1.length === 1 ? index1 : eval(index1)
   var num2 = typeof index2 === "object" && index2.length === 1 ? index2 : eval(index2);
@@ -222,7 +223,7 @@ function calculator(array){
     console.log('1');
     if(operator === 'x'){
       answer = new Fraction(parseInt(num1[0]) * num2 , parseInt(num1[1])).toString();
-    }else if(operator === '/'){
+    }else if(operator === '÷'){
       answer = new Fraction(parseInt(num1[0]) , (num2 * parseInt(num1[1]))).toString();
     }else if(operator === '-'){
       answer = new Fraction(parseInt(num1[0]) - num2 * parseInt(num1[1]) , parseInt(num1[1])).toString();
@@ -233,7 +234,7 @@ function calculator(array){
     // console.log('2');
     if(operator === 'x'){
       answer = new Fraction(parseInt(num2[0]) * num1 , parseInt(num2[1])).toString();
-    }else if(operator === '/'){
+    }else if(operator === '÷'){
       answer = new Fraction(parseInt(num2[0]) , (num1 * parseInt(num2[1]))).toString();
     }else if(operator === '-'){
       answer = new Fraction(num1 * parseInt(num2[1]) - parseInt(num2[0]), parseInt(num2[1])).toString();
@@ -244,14 +245,14 @@ function calculator(array){
     // console.log('3');
     if(operator === 'x'){
       answer = new Fraction((parseInt(num1[0]) * parseInt(num2[0])) , (parseInt(num1[1]) * parseInt(num2[1]))).toString();
-    }else if(operator === '/'){
+    }else if(operator === '÷'){
       answer = new Fraction((parseInt(num1[1]) * parseInt(num2[0])) , (parseInt(num1[0]) * parseInt(num2[1]))).toString();
     }else if(operator === '-'){
       answer = new Fraction(parseInt(num1[0]) * parseInt(num2[1]) - parseInt(num2[0]) * parseInt(num1[1]), parseInt(num2[1]) * parseInt(num1[1])).toString();
     }else{
       answer = new Fraction(parseInt(num1[0]) * parseInt(num2[1]) + parseInt(num2[0]) * parseInt(num1[1]), parseInt(num2[1]) * parseInt(num1[1])).toString();
     }
-  }else if(operator === '/'){
+  }else if(operator === '÷'){
     // console.log('4');
     answer = new Fraction(parseInt(num1), parseInt(num2)).toString();
   }else{
@@ -261,8 +262,8 @@ function calculator(array){
   if(typeof answer === "string"){
     var split1 = answer.split(' ')
     if(split1.length > 1){
-      var split2 = split1[1].split('/')
-      answer = (parseInt(split1[0]) * parseInt(split2[1]) + parseInt(split2[0])) +'/'+ parseInt(split2[1]);
+      var split2 = split1[1].split('÷')
+      answer = (parseInt(split1[0]) * parseInt(split2[1]) + parseInt(split2[0])) +'÷'+ parseInt(split2[1]);
     }
   }
   // console.log(answer);
@@ -301,49 +302,3 @@ function checkWin(array){
   }
   return 'continue'
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    flexDirection: 'row',
-  },
-  square:{
-    backgroundColor: '#fff',
-    borderWidth: 2,
-    width: 100,
-    height: 100,
-  },
-  number: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  operators: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  operatorsView:{
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  solutions: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 30,
-    height: 30,
-    borderWidth: 2
-  },
-  entire:{
-    flex:1,
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  }
-});
