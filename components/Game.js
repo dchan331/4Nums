@@ -15,10 +15,6 @@ export default class Game extends React.Component {
       hist: [],
       histIndex: 0
     }
-    this.handleNum = this.handleNum.bind(this);
-    this.handleSign = this.handleSign.bind(this);
-    this.handleGame = this.handleGame.bind(this);
-    this.handleSolutions = this.handleSolutions.bind(this)
   }
 
   componentDidMount(){
@@ -108,7 +104,7 @@ export default class Game extends React.Component {
     var newNums = this.state.hist[this.state.histIndex - 1]
     this.setState({numbers: newNums, histIndex: this.state.histIndex - 1})
   }
-  
+
   handleRedo(){
     var newNums = this.state.hist[this.state.histIndex + 1]
     this.setState({numbers: newNums, histIndex: this.state.histIndex + 1})
@@ -167,11 +163,11 @@ export default class Game extends React.Component {
 </View>
 
 <TouchableOpacity style={styles.square} onPress={() => this.handleUndo()}>
-  <View><Text>Undo </Text><Text>{this.state.clicked}</Text></View>
+  <View style={styles.number}><Text>Undo </Text><Text>{this.state.clicked}</Text></View>
 </TouchableOpacity>
 
 <TouchableOpacity style={styles.square} onPress={() => this.handleRedo()}>
-  <View><Text>Redo </Text><Text>{this.state.clicked}</Text></View>
+  <View style={styles.number}><Text>Redo </Text><Text>{this.state.clicked}</Text></View>
 </TouchableOpacity>
 
 <View style={styles.operatorsView}>
@@ -343,7 +339,8 @@ const styles = StyleSheet.create({
   },
   entire:{
     flex:1,
-    justifyContent: 'space-around',
+    justifyContent: 'center',
     alignItems: 'center',
+    top: 10
   }
 });
