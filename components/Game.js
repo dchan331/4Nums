@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, AsyncStorage } from 'react-native';
 import dataFile from './4Nums';
 import {Fraction} from 'fractional';
+import styles from '../assets/stylesheets/main';
 
 export default class Game extends React.Component {
   constructor(props){
@@ -301,49 +302,3 @@ function checkWin(array){
   }
   return 'continue'
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    flexDirection: 'row',
-  },
-  square:{
-    backgroundColor: '#fff',
-    borderWidth: 2,
-    width: 100,
-    height: 100,
-  },
-  number: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  operators: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  operatorsView:{
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  solutions: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 30,
-    height: 30,
-    borderWidth: 2
-  },
-  entire:{
-    flex:1,
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  }
-});
